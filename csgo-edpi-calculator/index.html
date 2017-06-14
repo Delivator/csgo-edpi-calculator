@@ -9,9 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+    .collapsible {
+      margin: .5rem 0 1.5rem 0;
+    }
+
+    .collapsible-body {
+      padding: 1rem;
+    }
+    </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="main">
       <div class="row">
         <div class="col l6 offset-l3 m8 offset-m2 s12 card">
           <div class="row">
@@ -21,21 +30,50 @@
             <div class="col s12 card-content">
               <div class="row">
                 <div class="col s12">
-                  <i class="material-icons tiny">mouse</i> DPI:
+                   <ul class="collapsible" data-collapsible="expandable">
+                     <li>
+                       <div class="collapsible-header"><i class="material-icons tiny">mouse</i> DPI:</div>
+                       <div class="collapsible-body">
+                         <div class="video-container">
+                           <iframe width="560" height="315" src="https://www.youtube.com/embed/cAEb9a-dltk?rel=0&autostart=1" frameborder="0" allowfullscreen></iframe>
+                         </div>
+                       </div>
+                     </li>
+                   </ul>
                   <div class="input-field">
                     <input id="dpi" type="number" min="0" step="1" class="validate" autocomplete="off">
                     <label for="dpi">DPI: e.g. 400</label>
                   </div>
                 </div>
                 <div class="col s12">
-                  <i class="material-icons tiny">gps_fixed</i> Sensitivity:
+                  <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons tiny">gps_fixed</i> Sensitivity:</div>
+                      <div class="collapsible-body">
+                        <span>Your Sensitivity can be found and changed by typing "sensitivity" into your developer console:</span>
+                        <img class="responsive-img" src="https://i.imgur.com/K1vxBZ8.png" alt="CS:GO Console Screenshot" width="100%">
+                      </div>
+                    </li>
+                  </ul>
                   <div class="input-field">
                     <input id="sens" type="number" min="0" step="0.001" class="validate" autocomplete="off">
                     <label for="sens">Sensitivity: e.g. 1.2</label>
                   </div>
                 </div>
                 <div class="col s12">
-                  <i class="material-icons tiny">input</i> Raw Input:
+                  <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons tiny">input</i> Raw Input:</div>
+                      <div class="collapsible-body">
+                        <blockquote cite="https://redd.it/3n3mva">
+                          <b>TL;DR:</b> basically, if you have your windows mouse settings at 6/11 and smoothing off raw input will not effect your sensitivity at all. What it will effect are "feel", which honestly might be a placebo. I recommend trying both and just using what you feel best from a blind test (have someone else change the settings for you and don't look at them)
+                        </blockquote>
+                        <i>/u/pwnify (<a href="https://redd.it/3n3mva" target="_blank">https://redd.it/3n3mva</a>)</i><br>
+                        <hr>
+                        <span>Can be changed by typing <code class="grey lighten-3">m_rawinput "1"</code> into your developer console. 0 = off; 1 = on.</span>
+                      </div>
+                    </li>
+                  </ul>
                   <div class="switch">
                     <label>
                       m_rawinput 0
@@ -46,10 +84,17 @@
                   </div>
                 </div>
                 <div class="col s12" style="margin-top: 20px;" id="win-sense-col">
-                  <i class="material-icons tiny">desktop_windows</i> Windows sensitivity:
+                  <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons tiny">desktop_windows</i> Windows sensitivity:</div>
+                      <div class="collapsible-body">
+                        <span>Can be found and changed by pressing <code class="grey lighten-3">Windows + R</code> and typing <code class="grey lighten-3">main.cpl</code>. On the 3rd tab you can find the pointer speed slider.</span>
+                      </div>
+                    </li>
+                  </ul>
                   <div>
                     <p class="range-field">
-                      <input type="range" id="win-sens" min="1" max="11" title="Windows + R and type 'main.cpl' and got to tap 3"/>
+                      <input type="range" id="win-sens" min="1" max="11" />
                     </p>
                   </div>
                 </div>
@@ -63,6 +108,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
     <script type="text/javascript">
+    $(document).ready(function() {
+      function updateMargin() {
+        var windowHeight = $(window).height();
+        var containerHeight = $("#main").height();
+        var margin = (windowHeight - containerHeight) / 2;
+        if (margin > 0) {
+          $("#main").css("margin-top", margin);
+        } else {
+          $("#main").css("margin-top", 0);
+        }
+      }
+      updateMargin();
+      $(window).resize(function() {
+        updateMargin();
+      });
+    });
       $("#raw-input").change(function() {
         if (this.checked) {
           $("#win-sense-col").addClass("grey-text");
