@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CS:GO - eDPI Calculator</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col l6 offset-l3 m8 offset-m2 s12 card">
+          <div class="row">
+            <div class="col s12 teal card-content white-text">
+              <span class="card-title">eDPI Calculator</span>
+            </div>
+            <div class="col s12 card-content">
+              <div class="row">
+                <div class="col s12">
+                  <i class="material-icons tiny">mouse</i> DPI:
+                  <div class="input-field">
+                    <input id="dpi" type="number" min="0" step="1" class="validate" autocomplete="off">
+                    <label for="dpi">DPI: e.g. 400</label>
+                  </div>
+                </div>
+                <div class="col s12">
+                  <i class="material-icons tiny">gps_fixed</i> Sensitivity:
+                  <div class="input-field">
+                    <input id="sens" type="number" min="0" step="0.001" class="validate" autocomplete="off">
+                    <label for="sens">Sensitivity: e.g. 1.2</label>
+                  </div>
+                </div>
+                <div class="col s12">
+                  <i class="material-icons tiny">input</i> Raw Input:
+                  <div class="switch">
+                    <label>
+                      m_rawinput 0
+                      <input type="checkbox" id="raw-input">
+                      <span class="lever"></span>
+                      m_rawinput 1
+                    </label>
+                  </div>
+                </div>
+                <div class="col s12" style="margin-top: 20px;" id="win-sense-col">
+                  <i class="material-icons tiny">desktop_windows</i> Windows sensitivity:
+                  <div>
+                    <p class="range-field">
+                      <input type="range" id="win-sens" min="1" max="11" title="Windows + R and type 'main.cpl' and got to tap 3"/>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <blockquote class="blue-grey lighten-5" style="font-size: 150%;"><span id="edpi" class="grey-text">480</span> eDPI</blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script type="text/javascript">
+      $("#raw-input").change(function() {
+        if (this.checked) {
+          $("#win-sense-col").addClass("grey-text");
+          $("#win-sens").prop("disabled", true);
+        } else {
+          $("#win-sense-col").removeClass("grey-text");
+          $("#win-sens").prop("disabled", false);
+        }
+        updateEdpi(calcEdpi());
+      });
+
+      $("#dpi").keyup(function() {updateEdpi(calcEdpi());});
+      $("#sens").keyup(function() {updateEdpi(calcEdpi());});
+      $("#win-sens").change(function() {updateEdpi(calcEdpi());});
+
+      function calcEdpi() {
+        var edpi = 0;
+        var dpi = $("#dpi").val();
+        var sens = $("#sens").val();
+        var win_sens = $("#win-sens").val();
+        var isRawChecked = $("#raw-input").is(":checked");
+        var winMultiplier = 1.0;
+
+        if (!isRawChecked) {
+          var multipliers = {1: 0.03, 2: 0.06, 3: 0.25, 4: 0.5, 5: 0.75, 6: 1.0, 7: 1.5, 8: 2.0, 9: 2.5, 10: 3.0, 11: 3.5};
+          winMultiplier = multipliers[win_sens];
+        } else {
+          winMultiplier = 1.0;
+        }
+
+        edpi = dpi * sens * winMultiplier;
+        return edpi;
+      }
+
+      function updateEdpi(value) {
+        var edpi = $("#edpi");
+        if (value > 0) {
+          edpi.text(value);
+          edpi.attr("class", "black-text");
+        } else {
+          edpi.text("N/A");
+          edpi.attr("class", "red-text text-lighten-3");
+        }
+        console.log("eDPI Updated!");
+      }
+    </script>
+  </body>
+</html>
