@@ -133,7 +133,6 @@
         function forLoop(i) {
           if (i < 0) return;
           setTimeout(function () {
-            console.log("updated margin after click");
             updateMargin();
             forLoop(--i);
           }, 5)
