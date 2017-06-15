@@ -10,6 +10,17 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
+    body {
+      animation-name: fadein;
+      animation-duration: 1.5s;
+    }
+
+    @keyframes fadein {
+      0% { opacity: 0; }
+      50% { opacity: 0; }
+      100%   { opacity: 1; }
+    }
+
     .collapsible {
       margin: .5rem 0 1.5rem 0;
     }
@@ -17,36 +28,48 @@
     .collapsible-body {
       padding: 1rem;
     }
+
+    .container {
+      transition: margin-top 0.5s;
+    }
     </style>
   </head>
   <body>
-    <a href="https://github.com/Delivator/csgo-edpi-calculator"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 100;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <div class="container" id="main">
+    <a href="https://github.com/Delivator/csgo-edpi-calculator"><img style="position: fixed; top: 40px; right: -40px; border: 0; z-index: 100; transform: rotate(45deg);" src="https://i.imgur.com/J1LHJbb.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    <div class="container" id="main" style="margin-top: 80.5px;">
       <div class="row">
-        <div class="col l6 offset-l3 m8 offset-m2 s12 card">
-          <div class="row">
-            <div class="col s12 teal card-content white-text">
+        <div class="col l6 offset-l3 m8 offset-m2 s12">
+          <div class="card">
+            <div class="teal card-content white-text">
               <span class="card-title">eDPI Calculator</span>
             </div>
-            <div class="col s12 card-content">
-              <div class="row">
-                <div class="col s12">
-                   <ul class="collapsible" data-collapsible="expandable">
-                     <li>
-                       <div class="collapsible-header"><i class="material-icons tiny">mouse</i> DPI</div>
-                       <div class="collapsible-body">
-                         <div class="video-container">
-                           <iframe width="560" height="315" src="https://www.youtube.com/embed/cAEb9a-dltk?rel=0&autostart=1" frameborder="0" allowfullscreen></iframe>
-                         </div>
-                       </div>
-                     </li>
-                   </ul>
+            <div class="card-tabs">
+              <ul class="tabs tabs-fixed-width">
+                <li class="tab"><a href="#edpi-card">eDPI</a></li>
+                <li class="tab"><a href="#sens-card">Sensitivity</a></li>
+              </ul>
+            </div>
+            <div class="card-content">
+              <div id="edpi-card">
+                <div>
+                  <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                      <div class="collapsible-header" id="dpi-collapsible"><i class="material-icons tiny">mouse</i> DPI</div>
+                      <div class="collapsible-body">
+                        <div class="video-container">
+                          <div id="video-embed">
+                            <img src="http://img.youtube.com/vi/cAEb9a-dltk/mqdefault.jpg" alt="YouTube Video Thumbnail" width="100%">
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                   <div class="input-field">
                     <input id="dpi" type="number" min="0" step="1" class="validate" autocomplete="off">
                     <label for="dpi">DPI: e.g. 400</label>
                   </div>
                 </div>
-                <div class="col s12">
+                <div>
                   <ul class="collapsible" data-collapsible="expandable">
                     <li>
                       <div class="collapsible-header"><i class="material-icons tiny">gps_fixed</i> Sensitivity</div>
@@ -61,7 +84,7 @@
                     <label for="sens">Sensitivity: e.g. 1.2</label>
                   </div>
                 </div>
-                <div class="col s12">
+                <div>
                   <ul class="collapsible" data-collapsible="expandable">
                     <li>
                       <div class="collapsible-header"><i class="material-icons tiny">input</i> Raw Input</div>
@@ -84,7 +107,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="col s12" style="margin-top: 20px;" id="win-sense-col">
+                <div style="margin-top: 20px;" id="win-sense-col">
                   <ul class="collapsible" data-collapsible="expandable">
                     <li>
                       <div class="collapsible-header"><i class="material-icons tiny">desktop_windows</i> Windows sensitivity</div>
@@ -99,8 +122,11 @@
                     </p>
                   </div>
                 </div>
+                <blockquote class="blue-grey lighten-5" style="font-size: 150%;"><span id="edpi" class="grey-text">480</span> eDPI</blockquote>
               </div>
-              <blockquote class="blue-grey lighten-5" style="font-size: 150%;"><span id="edpi" class="grey-text">480</span> eDPI</blockquote>
+              <div id="sens-card">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -110,35 +136,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-      // Update margin function
-      function updateMargin() {
+      // Update margin functions
+      function calcMargin() {
         var windowHeight = $(window).height();
         var containerHeight = $("#main").height();
         var margin = (windowHeight - containerHeight) / 2;
-        if (margin > 0) {
-          $("#main").css("margin-top", margin);
-        } else {
-          $("#main").css("margin-top", 0);
+        if (margin <= 0) {
+          margin = 0;
         }
+        return margin;
       }
 
-      // Update margin after load
-      updateMargin();
-      $(window).resize(function() {
-        updateMargin();
-      });
+      function updateMargin(margin) {
+        $("#main").css("margin-top", margin);
+      }
 
-      // Update margin on collapsible click
-      $(".collapsible").click(function() {
+      // Update margin function, but slower
+      function slowUpdateMargin() {
         function forLoop(i) {
           if (i < 0) return;
           setTimeout(function () {
-            updateMargin();
+            updateMargin(calcMargin());
             forLoop(--i);
           }, 5)
         }
         forLoop(50);
+      }
 
+      // Update margin after load
+      updateMargin(calcMargin());
+
+      // Update margin on window resize
+      $(window).resize(function() {
+        updateMargin(calcMargin());
+      });
+
+      // Update margin on different elements
+      $(".collapsible").click(function() {
+        setTimeout(function () {
+          updateMargin(calcMargin());
+        }, 250);
+      });
+
+      $(".tab").click(function() {
+        setTimeout(function() {
+          updateMargin(calcMargin());
+        }, 5);
+      });
+
+      $("#dpi-collapsible").click(function() {
+        if ($("#video-embed").html().trim().startsWith('<img')) {
+          $("#video-embed").html('<iframe width="560" height="315" src="https://www.youtube.com/embed/cAEb9a-dltk?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
+        } else {
+          $("#video-embed").html('<img src="http://img.youtube.com/vi/cAEb9a-dltk/mqdefault.jpg" alt="YouTube Video Thumbnail" width="100%">');
+        }
       });
 
       // Switch change trigger
@@ -150,32 +201,52 @@
           $("#win-sense-col").removeClass("grey-text");
           $("#win-sens").prop("disabled", false);
         }
-        updateEdpi(calcEdpi());
+        calcAndUpdate();
       });
 
       // Input type trigger
-      $("#dpi").keyup(function() {updateEdpi(calcEdpi());});
-      $("#sens").keyup(function() {updateEdpi(calcEdpi());});
-      $("#win-sens").change(function() {updateEdpi(calcEdpi());});
+      $("#dpi").keyup(function() {calcAndUpdate();});
+      $("#sens").keyup(function() {calcAndUpdate();});
+      $("#win-sens").change(function() {calcAndUpdate();});
 
       // eDPI calculation function
-      function calcEdpi() {
-        var edpi = 0;
-        var dpi = $("#dpi").val();
-        var sens = $("#sens").val();
-        var win_sens = $("#win-sens").val();
-        var isRawChecked = $("#raw-input").is(":checked");
-        var winMultiplier = 1.0;
+      function calcEdpi(dpi, sens, win, raw) {
+        var edpi = 0,
+            winMultiplier = 1.0;
 
-        if (!isRawChecked) {
+        if (!raw) {
           var multipliers = {1: 0.03, 2: 0.06, 3: 0.25, 4: 0.5, 5: 0.75, 6: 1.0, 7: 1.5, 8: 2.0, 9: 2.5, 10: 3.0, 11: 3.5};
-          winMultiplier = multipliers[win_sens];
+          winMultiplier = multipliers[win];
         } else {
           winMultiplier = 1.0;
         }
 
         edpi = dpi * sens * winMultiplier;
         return edpi;
+      }
+
+      function calcSens(edpi, dpi, win, raw) {
+        var sens = 0,
+            winMultiplier = 1.0;
+
+        if (!raw) {
+          var multipliers = {1: 0.03, 2: 0.06, 3: 0.25, 4: 0.5, 5: 0.75, 6: 1.0, 7: 1.5, 8: 2.0, 9: 2.5, 10: 3.0, 11: 3.5};
+          winMultiplier = multipliers[win];
+        } else {
+          winMultiplier = 1.0;
+        }
+
+        sens = edpi / dpi / winMultiplier;
+        return sens;
+      }
+
+      function calcAndUpdate() {
+        var dpi = $("#dpi").val();
+        var sens = $("#sens").val();
+        var win_sens = $("#win-sens").val();
+        var isRawChecked = $("#raw-input").is(":checked");
+
+        updateEdpi(calcEdpi(dpi, sens, win_sens, isRawChecked));
       }
 
       function updateEdpi(value) {
@@ -187,7 +258,6 @@
           edpi.text("N/A");
           edpi.attr("class", "red-text text-lighten-3");
         }
-        console.log("eDPI Updated!");
       }
     });
     </script>
