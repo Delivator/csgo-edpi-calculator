@@ -2,5 +2,5 @@
 
 # Screenshot
 
-![Screenshot](https://i.imgur.com/LXL3zUw.png)(https://delivator.me/csgo-edpi-calculator)
+[![Screenshot](https://i.imgur.com/LXL3zUw.png)](https://delivator.me/csgo-edpi-calculator/)
 
