@@ -109,6 +109,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
+      // Update margin function
       function updateMargin() {
         var windowHeight = $(window).height();
         var containerHeight = $("#main").height();
@@ -119,11 +120,28 @@
           $("#main").css("margin-top", 0);
         }
       }
+
+      // Update margin after load
       updateMargin();
       $(window).resize(function() {
         updateMargin();
       });
-    });
+
+      // Update margin on collapsible click
+      $(".collapsible").click(function() {
+        function forLoop(i) {
+          if (i < 0) return;
+          setTimeout(function () {
+            console.log("updated margin after click");
+            updateMargin();
+            forLoop(--i);
+          }, 5)
+        }
+        forLoop(50);
+
+      });
+
+      // Switch change trigger
       $("#raw-input").change(function() {
         if (this.checked) {
           $("#win-sense-col").addClass("grey-text");
@@ -135,10 +153,12 @@
         updateEdpi(calcEdpi());
       });
 
+      // Input type trigger
       $("#dpi").keyup(function() {updateEdpi(calcEdpi());});
       $("#sens").keyup(function() {updateEdpi(calcEdpi());});
       $("#win-sens").change(function() {updateEdpi(calcEdpi());});
 
+      // eDPI calculation function
       function calcEdpi() {
         var edpi = 0;
         var dpi = $("#dpi").val();
@@ -169,6 +189,7 @@
         }
         console.log("eDPI Updated!");
       }
+    });
     </script>
   </body>
 </html>
