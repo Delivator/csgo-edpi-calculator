@@ -1,0 +1,22 @@
+body {
+  animation-name: fadein;
+  animation-duration: 1.5s;
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  50% { opacity: 0; }
+  100%   { opacity: 1; }
+}
+
+.collapsible {
+  margin: .5rem 0 1.5rem 0;
+}
+
+.collapsible-body {
+  padding: 1rem;
+}
+
+.container {
+  transition: margin-top 0.5s;
+}

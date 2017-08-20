@@ -4,36 +4,14 @@
     <meta charset="utf-8">
     <title>CS:GO - eDPI Calculator</title>
     <link rel="icon" href="favicon.png">
-    <!--Import Google Icon Font-->
+    <!-- Import Google Icon Font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
+    <!-- Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
-    <!--Let browser know website is optimized for mobile-->
+    <!-- Let browser know website is optimized for mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <style>
-    body {
-      animation-name: fadein;
-      animation-duration: 1.5s;
-    }
 
-    @keyframes fadein {
-      0% { opacity: 0; }
-      50% { opacity: 0; }
-      100%   { opacity: 1; }
-    }
-
-    .collapsible {
-      margin: .5rem 0 1.5rem 0;
-    }
-
-    .collapsible-body {
-      padding: 1rem;
-    }
-
-    .container {
-      transition: margin-top 0.5s;
-    }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <a href="https://github.com/Delivator/csgo-edpi-calculator"><img style="position: fixed; top: 40px; right: -40px; border: 0; z-index: 100; transform: rotate(45deg);" src="https://i.imgur.com/J1LHJbb.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
@@ -126,7 +104,39 @@
                 <blockquote class="blue-grey lighten-5" style="font-size: 150%;"><span id="edpi" class="grey-text">480</span> eDPI</blockquote>
               </div>
               <div id="sens-card">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div>
+                  <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                      <div class="collapsible-header" id="dpi-collapsible2"><i class="material-icons tiny">mouse</i> DPI</div>
+                      <div class="collapsible-body">
+                        <div class="video-container">
+                          <div id="video-embed2">
+                            <img src="https://img.youtube.com/vi/cAEb9a-dltk/mqdefault.jpg" alt="YouTube Video Thumbnail" width="100%">
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="input-field">
+                    <input id="dpi2" type="number" min="0" step="1" class="validate" autocomplete="off">
+                    <label for="dpi">DPI: e.g. 400</label>
+                  </div>
+                </div>
+                <div>
+                  <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons tiny">settings</i> eDPI</div>
+                      <div class="collapsible-body">
+                        <span>eDPI stands for Effective DPI. This number describes your "real" sensitivity. I don't fucking know how to descibe it ok?</span>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="input-field">
+                    <input id="edpi2" type="number" min="0" step="0.001" class="validate" autocomplete="off">
+                    <label for="sens">eDPI: e.g. 480</label>
+                  </div>
+                </div>
+                <blockquote class="blue-grey lighten-5" style="font-size: 150%;"><span id="sens2" class="grey-text">1.2</span> Sensitivity</blockquote>
               </div>
             </div>
           </div>
@@ -193,6 +203,14 @@
         }
       });
 
+      $("#dpi-collapsible2").click(function() {
+        if ($("#video-embed2").html().trim().startsWith('<img')) {
+          $("#video-embed2").html('<iframe width="560" height="315" src="https://www.youtube.com/embed/cAEb9a-dltk?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
+        } else {
+          $("#video-embed2").html('<img src="https://img.youtube.com/vi/cAEb9a-dltk/mqdefault.jpg" alt="YouTube Video Thumbnail" width="100%">');
+        }
+      });
+
       // Switch change trigger
       $("#raw-input").change(function() {
         if (this.checked) {
@@ -202,13 +220,16 @@
           $("#win-sense-col").removeClass("grey-text");
           $("#win-sens").prop("disabled", false);
         }
-        calcAndUpdate();
+        calcAndUpdateEdpi();
       });
 
       // Input type trigger
-      $("#dpi").keyup(function() {calcAndUpdate();});
-      $("#sens").keyup(function() {calcAndUpdate();});
-      $("#win-sens").change(function() {calcAndUpdate();});
+      $("#dpi").keyup(function() {calcAndUpdateEdpi();});
+      $("#sens").keyup(function() {calcAndUpdateEdpi();});
+      $("#win-sens").change(function() {calcAndUpdateEdpi();});
+
+      $("#dpi2").keyup(function() {calcAndUpdateSens();});
+      $("#edpi2").keyup(function() {calcAndUpdateSens();});
 
       // eDPI calculation function
       function calcEdpi(dpi, sens, win, raw) {
@@ -241,13 +262,20 @@
         return sens;
       }
 
-      function calcAndUpdate() {
+      function calcAndUpdateEdpi() {
         var dpi = $("#dpi").val();
         var sens = $("#sens").val();
         var win_sens = $("#win-sens").val();
         var isRawChecked = $("#raw-input").is(":checked");
 
         updateEdpi(calcEdpi(dpi, sens, win_sens, isRawChecked));
+      }
+
+      function calcAndUpdateSens() {
+        let dpi = $("#dpi2").val();
+        let edpi = $("#edpi2").val();
+
+        updateSens(calcSens(edpi, dpi, 6, true));
       }
 
       function updateEdpi(value) {
@@ -258,6 +286,17 @@
         } else {
           edpi.text("N/A");
           edpi.attr("class", "red-text text-lighten-3");
+        }
+      }
+
+      function updateSens(value) {
+        let sens = $("#sens2");
+        if (value > 0) {
+          sens.text(value);
+          sens.attr("class", "black-text");
+        } else {
+          sens.text("N/A");
+          sens.attr("class", "red-text text-lighten-3");
         }
       }
     });
