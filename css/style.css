@@ -20,3 +20,13 @@ body {
 .container {
   transition: margin-top 0.5s;
 }
+
+code {
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.collapsible-body img {
+  margin-top: 10px;
+  border-radius: 6px;
+}
